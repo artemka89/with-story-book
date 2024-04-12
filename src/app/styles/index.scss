@@ -1,0 +1,23 @@
+@import 'normalize';
+@import 'variables/global';
+@import 'theme/dark';
+@import 'theme/light';
+
+button {
+    font: var(--font-m);
+}
+
+.app {
+    min-height: 100vh;
+    font: var(--font-m);
+    color: var(--secondary-color);
+    background: var(--bg-primary-color);
+    transition: all 0.3s;
+}
+
+.container {
+    max-width: 1300px;
+    margin: 0 auto;
+    height: 100%;
+    padding: 0 10px;
+}

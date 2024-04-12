@@ -4,15 +4,14 @@
 @import 'theme/light';
 
 button {
-    font: var(--font-m);
+    font: inherit;
 }
 
 .app {
     min-height: 100vh;
     font: var(--font-m);
-    color: var(--secondary-color);
+    color: var(--primary-color);
     background: var(--bg-primary-color);
-    transition: all 0.3s;
 }
 
 .container {

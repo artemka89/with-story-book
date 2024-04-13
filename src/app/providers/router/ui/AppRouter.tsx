@@ -6,7 +6,7 @@ import { routerConfig } from '@/app/providers/router/config/routerConfig';
 export const AppRouter = memo(() => {
     const renderWithSuspense = useCallback((route: RouteProps) => {
         const element = <Suspense fallback="">{route.element}</Suspense>;
-        return <Route path={route.path} element={element} />;
+        return <Route key={route.path} path={route.path} element={element} />;
     }, []);
 
     return (

@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, InputHTMLAttributes } from 'react';
+import { ChangeEvent, FC, InputHTMLAttributes, useRef } from 'react';
 import { IoClose } from 'react-icons/io5';
 import classNames from 'classnames';
 
@@ -31,12 +31,18 @@ export const Input: FC<InputProps> = ({
     onChange,
     ...props
 }) => {
+    const inputRef = useRef<HTMLInputElement>(null);
+
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         onChange?.(event.target.value);
     };
 
     const onClear = () => {
         onChange?.('');
+    };
+
+    const onClickLabel = () => {
+        inputRef.current?.focus();
     };
 
     return (
@@ -48,6 +54,7 @@ export const Input: FC<InputProps> = ({
             )}
         >
             <input
+                ref={inputRef}
                 id={placeholder}
                 type={type}
                 value={value}
@@ -56,7 +63,9 @@ export const Input: FC<InputProps> = ({
                 className={styles.input}
                 {...props}
             />
-            <label className={styles.label}>{placeholder}</label>
+            <label className={styles.label} onClick={onClickLabel}>
+                {placeholder}
+            </label>
             <span onClick={onClear} className={styles.clearBtn}>
                 {isClearButton && value && <IoClose size={24} />}
             </span>

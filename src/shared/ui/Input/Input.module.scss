@@ -1,0 +1,54 @@
+.inputWrapper {
+    position: relative;
+    padding: 13px 35px 7px 15px;
+    border: 1px solid var(--input-border-color);
+    border-radius: 9999px;
+    background: var(--input-bg-color);
+}
+
+.inputWrapper.normal {
+    border-radius: var(--border-radius-normal);
+}
+
+.inputWrapper.full {
+    border-radius: var(--border-radius-full);
+}
+
+.input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: var(--primary-color);
+    font: var(--font-m);
+    outline: none;
+}
+
+.label {
+    position: absolute;
+    left: 15px;
+    top: 11px;
+    font-size: 16px;
+    color: var(--primary-color);
+    opacity: 0.7;
+    transition:
+        transform 0.2s,
+        font-size 0.2s;
+}
+
+.inputWrapper .input:focus + .label,
+.inputWrapper .input:not(:placeholder-shown) + .label {
+    transform: translateY(-14px) translateX(5px);
+    font-size: 12px;
+}
+
+.clearBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: absolute;
+    right: 6px;
+    top: 0;
+    bottom: 0;
+    color: black;
+}

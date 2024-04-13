@@ -4,7 +4,11 @@
 @import 'theme/light';
 
 button {
-    font: inherit;
+    font: var(--font-m);
+}
+
+label {
+    font: var(--font-m);
 }
 
 .app {

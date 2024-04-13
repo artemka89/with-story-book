@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, InputHTMLAttributes, useRef } from 'react';
+import { ChangeEvent, FC, InputHTMLAttributes, memo, useRef } from 'react';
 import { IoClose } from 'react-icons/io5';
 import classNames from 'classnames';
 
@@ -21,7 +21,7 @@ interface InputProps extends HTMLInputProps {
     onChange?: (value: string) => void;
 }
 
-export const Input: FC<InputProps> = ({
+export const Input: FC<InputProps> = memo(function Input({
     className,
     type = 'text',
     value,
@@ -30,7 +30,7 @@ export const Input: FC<InputProps> = ({
     isClearButton = true,
     onChange,
     ...props
-}) => {
+}) {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -71,4 +71,4 @@ export const Input: FC<InputProps> = ({
             </span>
         </div>
     );
-};
+});

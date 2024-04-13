@@ -1,17 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 
-import { ThemeDecorator } from '@/shared/config/storybook/ThemeDecorator';
-import { Theme } from '@/shared/lib/context/ThemeContext';
-
 import { Button, ButtonTheme } from './Button';
-
-const style = {
-    width: '600px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-};
 
 const meta = {
     title: 'shared/Button',
@@ -22,7 +12,6 @@ const meta = {
     tags: ['autodocs'],
 
     argTypes: {
-        backgroundColor: { control: 'color' },
         theme: {
             options: [
                 ButtonTheme.CLEAR,
@@ -44,39 +33,15 @@ export const Clear: Story = {
         theme: ButtonTheme.CLEAR,
     },
 };
-Clear.decorators = ThemeDecorator(Theme.LIGHT, style);
-
-export const ClearDark: Story = {
-    args: {
-        theme: ButtonTheme.CLEAR,
-    },
-};
-ClearDark.decorators = ThemeDecorator(Theme.DARK, style);
 
 export const Outline: Story = {
     args: {
         theme: ButtonTheme.OUTLINE,
     },
 };
-Outline.decorators = ThemeDecorator(Theme.LIGHT, style);
 
-export const OutlineDark: Story = {
-    args: {
-        theme: ButtonTheme.OUTLINE,
-    },
-};
-OutlineDark.decorators = ThemeDecorator(Theme.DARK, style);
-
-export const BackgroundTheme: Story = {
+export const Background: Story = {
     args: {
         theme: ButtonTheme.BACKGROUND,
     },
 };
-BackgroundTheme.decorators = ThemeDecorator(Theme.LIGHT, style);
-
-export const BackgroundThemeDark: Story = {
-    args: {
-        theme: ButtonTheme.BACKGROUND,
-    },
-};
-BackgroundThemeDark.decorators = ThemeDecorator(Theme.DARK, style);

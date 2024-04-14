@@ -6,14 +6,18 @@ import { useTheme } from '@/shared/lib/hooks/useTheme';
 
 import styles from './ThemeSwitcher.module.scss';
 
-export const ThemeSwitcher: FC = () => {
+interface ThemeSwitcherProps {
+    size?: number;
+}
+
+export const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ size = 24 }) => {
     const { theme, toggleTheme } = useTheme();
 
     const isDark = theme === Theme.DARK;
 
     return (
         <div onClick={toggleTheme} className={styles.themeSwitcher}>
-            {isDark ? <GoMoon size={24} /> : <GoSun size={24} />}
+            {isDark ? <GoMoon size={size} /> : <GoSun size={size} />}
         </div>
     );
 };

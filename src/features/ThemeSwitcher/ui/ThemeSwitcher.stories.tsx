@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
 
-import { ThemeDecorator } from '@/shared/config/storybook/ThemeDecorator';
+import { ThemeDecorator } from '@/shared/config/storybook/Decorators/ThemeDecorator';
 import { Theme } from '@/shared/lib/context/ThemeContext';
 
 import { ThemeSwitcher } from './ThemeSwitcher';
@@ -20,7 +19,6 @@ const meta = {
         layout: 'centered',
     },
     tags: ['autodocs'],
-    args: { onClick: fn() },
 } satisfies Meta<typeof ThemeSwitcher>;
 
 export default meta;

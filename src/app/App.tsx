@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 import classNames from 'classnames';
 
 import { AppRouter } from '@/app/router/ui/AppRouter';
-import { useLazyGetCurrentUserQuery } from '@/entities/User/models/api/getCurrentLoggetUser';
+import { useLazyGetCurrentLoggedUserQuery } from '@/entities/User';
 import { useTheme } from '@/shared/lib/hooks/useTheme';
 
 export const App = () => {
     const { theme } = useTheme();
 
-    const [getCurrentUserTrigger] = useLazyGetCurrentUserQuery();
+    const [getCurrentUserTrigger] = useLazyGetCurrentLoggedUserQuery();
 
     useEffect(() => {
         getCurrentUserTrigger();

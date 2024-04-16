@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes, memo } from 'react';
+import { FC, HTMLAttributes } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 
@@ -13,7 +13,7 @@ const NAVBAR_LINKS = [
 
 type NavbarProps = HTMLAttributes<HTMLDivElement>;
 
-export const Navbar: FC<NavbarProps> = memo(function Navbar({ className }) {
+export const Navbar: FC<NavbarProps> = ({ className }) => {
     const { pathname } = useLocation();
 
     return (
@@ -31,4 +31,4 @@ export const Navbar: FC<NavbarProps> = memo(function Navbar({ className }) {
             ))}
         </nav>
     );
-});
+};

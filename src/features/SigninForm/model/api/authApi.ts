@@ -6,9 +6,9 @@ import { rtkQuery } from '@/shared/api/rtkQuery';
 
 import { SigninSchema } from '../types/SigninSchema';
 
-export const authByEmail = rtkQuery.injectEndpoints({
+export const authApi = rtkQuery.injectEndpoints({
     endpoints: (build) => ({
-        auth: build.mutation<UserType, SigninSchema>({
+        authByEmail: build.mutation<UserType, SigninSchema>({
             queryFn: async ({ email, password }) => {
                 try {
                     const session = await account.createEmailSession(
@@ -30,4 +30,4 @@ export const authByEmail = rtkQuery.injectEndpoints({
     }),
 });
 
-export const { useAuthMutation } = authByEmail;
+export const { useAuthByEmailMutation } = authApi;

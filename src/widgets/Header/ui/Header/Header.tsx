@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import { getUserAuthData } from '@/entities/User/models/selectors/getUserAuthData/getUserAuthData';
-import { UserGreeting } from '@/entities/User/ui/UserGreeting/UserGreeting';
+import { getUserAuthData, useLogOutMutation } from '@/entities/User';
+import { UserGreeting } from '@/entities/User/';
 import { ThemeSwitcher } from '@/features/ThemeSwitcher';
 import { AppRoutes } from '@/shared/constants/router';
 import { useAppSelector } from '@/shared/lib/store';
@@ -15,6 +15,7 @@ import styles from './Header.module.scss';
 
 export const Header: FC = () => {
     const userData = useAppSelector(getUserAuthData);
+    const [logout, { isLoading }] = useLogOutMutation();
 
     return (
         <header className={styles.header}>
@@ -26,7 +27,12 @@ export const Header: FC = () => {
                     {userData ? (
                         <div className={styles.controlWrapper}>
                             <UserGreeting />
-                            <Button>Выйти</Button>
+                            <Button
+                                isLoading={isLoading}
+                                onClick={() => logout()}
+                            >
+                                Выйти
+                            </Button>
                             <ThemeSwitcher size={24} />
                         </div>
                     ) : (

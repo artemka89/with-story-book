@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, FC, memo } from 'react';
+import { ButtonHTMLAttributes, FC } from 'react';
 import classNames from 'classnames';
 
 import { Loader } from '../Loader';
@@ -27,7 +27,7 @@ interface ButtonProps extends HTMLButtonProps {
     isLoading?: boolean;
 }
 
-export const Button: FC<ButtonProps> = memo(function Button({
+export const Button: FC<ButtonProps> = ({
     children,
     type = 'button',
     theme = ButtonTheme.FILLED,
@@ -37,7 +37,7 @@ export const Button: FC<ButtonProps> = memo(function Button({
     isLoading = false,
     className,
     ...props
-}) {
+}) => {
     return (
         <button
             type={type}
@@ -59,4 +59,4 @@ export const Button: FC<ButtonProps> = memo(function Button({
             {children}
         </button>
     );
-});
+};

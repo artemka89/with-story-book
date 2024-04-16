@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { Button } from '@/shared/ui/Button/Button';
 import { Input } from '@/shared/ui/Input/Input';
 
-import { useAuthMutation } from '../model/api/authByEmail';
+import { useAuthByEmailMutation } from '../model/api/authApi';
 
 import styles from './SigninForm.module.scss';
 
@@ -19,7 +19,7 @@ export const SigninForm: FC<SigninFormProps> = ({ className }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const [auth, { isLoading }] = useAuthMutation();
+    const [authByEmail, { isLoading }] = useAuthByEmailMutation();
 
     const onChangeEmail = (value: string) => {
         setEmail(value);
@@ -29,7 +29,7 @@ export const SigninForm: FC<SigninFormProps> = ({ className }) => {
     };
 
     const onLoginClick = async () => {
-        await auth({ email, password });
+        await authByEmail({ email, password });
         setEmail('');
         setPassword('');
         navigate('/');

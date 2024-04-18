@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Toaster } from 'react-hot-toast';
 import classNames from 'classnames';
 
 import { AppRouter } from '@/app/router/ui/AppRouter';
@@ -17,6 +18,7 @@ export const App = () => {
     return (
         <div className={classNames('app', [theme])}>
             <AppRouter />
+            <Toaster />
         </div>
     );
 };

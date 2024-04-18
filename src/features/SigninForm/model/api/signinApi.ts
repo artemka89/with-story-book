@@ -1,4 +1,4 @@
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 import { userActions, UserType } from '@/entities/User';
 import { account } from '@/shared/api/config/appwriteClient';
@@ -6,7 +6,7 @@ import { rtkQuery } from '@/shared/api/rtkQuery';
 
 import { SigninSchema } from '../types/SigninSchema';
 
-export const authApi = rtkQuery.injectEndpoints({
+export const signinApi = rtkQuery.injectEndpoints({
     endpoints: (build) => ({
         authByEmail: build.mutation<UserType, SigninSchema>({
             queryFn: async ({ email, password }) => {
@@ -30,4 +30,4 @@ export const authApi = rtkQuery.injectEndpoints({
     }),
 });
 
-export const { useAuthByEmailMutation } = authApi;
+export const { useAuthByEmailMutation } = signinApi;

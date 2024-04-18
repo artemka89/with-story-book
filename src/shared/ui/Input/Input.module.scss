@@ -1,17 +1,19 @@
 .inputWrapper {
     position: relative;
+    margin-bottom: 25px;
     padding: 13px 35px 7px 15px;
     border: 1px solid var(--input-border-color);
     border-radius: 9999px;
     background: var(--input-bg-color);
-}
-
-.inputWrapper.normal {
-    border-radius: var(--border-radius-normal);
-}
-
-.inputWrapper.full {
-    border-radius: var(--border-radius-full);
+    &.inputWrapper.normal {
+        border-radius: var(--border-radius-normal);
+    }
+    &.inputWrapper.full {
+        border-radius: var(--border-radius-full);
+    }
+    &.error {
+        border-color: var(--error-red-color);
+    }
 }
 
 .input {
@@ -34,6 +36,13 @@
     transition:
         transform 0.2s,
         font-size 0.2s;
+}
+
+.errorMessage {
+    position: absolute;
+    bottom: -25px;
+    font-size: var(--font-size-m);
+    color: var(--error-red-color);
 }
 
 .inputWrapper .input:focus + .label,

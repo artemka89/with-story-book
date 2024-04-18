@@ -1,11 +1,15 @@
-import { FC, useState } from 'react';
+import { FC, useEffect } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { DevTool } from '@hookform/devtools';
 import classNames from 'classnames';
 
 import { Button } from '@/shared/ui/Button/Button';
 import { Input } from '@/shared/ui/Input/Input';
 
-import { useAuthByEmailMutation } from '../model/api/authApi';
+import { useAuthByEmailMutation } from '../model/api/signinApi';
+import { SigninSchema } from '../model/types/SigninSchema';
 
 import styles from './SigninForm.module.scss';
 
@@ -16,41 +20,76 @@ interface SigninFormProps {
 export const SigninForm: FC<SigninFormProps> = ({ className }) => {
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [authByEmail, { status }] = useAuthByEmailMutation();
 
-    const [authByEmail, { isLoading }] = useAuthByEmailMutation();
+    const {
+        handleSubmit,
+        control,
+        formState: { errors },
+    } = useForm<SigninSchema>({
+        mode: 'onBlur',
+        defaultValues: {
+            email: '',
+            password: '',
+        },
+    });
 
-    const onChangeEmail = (value: string) => {
-        setEmail(value);
-    };
-    const onChangePassword = (value: string) => {
-        setPassword(value);
-    };
+    const onSubmitHandler: SubmitHandler<SigninSchema> = ({
+        email,
+        password,
+    }) =>
+        authByEmail({ email, password })
+            .unwrap()
+            .then(() => {
+                navigate('/');
+            });
 
-    const onLoginClick = async () => {
-        await authByEmail({ email, password });
-        setEmail('');
-        setPassword('');
-        navigate('/');
-    };
+    useEffect(() => {
+        status === 'fulfilled' && toast.success('Вход успешно выполнен');
+    }, [status]);
 
     return (
-        <div className={classNames(styles.signinForm, className)}>
-            <Input value={email} onChange={onChangeEmail} placeholder="Email" />
-            <Input
-                value={password}
-                onChange={onChangePassword}
-                type="password"
-                placeholder="Пароль"
-            />
-            <Button
-                isLoading={isLoading}
-                onClick={onLoginClick}
-                className={styles.button}
+        <>
+            <form
+                onSubmit={handleSubmit(onSubmitHandler)}
+                className={classNames(styles.signinForm, className)}
             >
-                Войти
-            </Button>
-        </div>
+                <Controller
+                    name="email"
+                    control={control}
+                    rules={{ required: 'Email обязательное поле' }}
+                    render={({ field }) => (
+                        <Input
+                            {...field}
+                            label="Email *"
+                            error={errors.email?.message}
+                            isClearButton={false}
+                        />
+                    )}
+                />
+                <Controller
+                    name="password"
+                    control={control}
+                    rules={{ required: 'Пароль обязательное поле' }}
+                    render={({ field }) => (
+                        <Input
+                            {...field}
+                            label="Пароль *"
+                            error={errors.password?.message}
+                            isClearButton={false}
+                            type="password"
+                        />
+                    )}
+                />
+                <Button
+                    isLoading={status === 'pending'}
+                    type="submit"
+                    className={styles.button}
+                >
+                    Войти
+                </Button>
+            </form>
+            <DevTool control={control} />
+        </>
     );
 };

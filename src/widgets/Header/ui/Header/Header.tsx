@@ -6,7 +6,7 @@ import { UserGreeting } from '@/entities/User/';
 import { ThemeSwitcher } from '@/features/ThemeSwitcher';
 import { AppRoutes } from '@/shared/constants/router';
 import { useAppSelector } from '@/shared/lib/store';
-import { Button } from '@/shared/ui/Button/Button';
+import { Button, ButtonTheme } from '@/shared/ui/Button/Button';
 import { Logo } from '@/shared/ui/Logo';
 
 import { Navbar } from '../Navbar/Navbar';
@@ -38,7 +38,10 @@ export const Header: FC = () => {
                     ) : (
                         <div className={styles.controlWrapper}>
                             <Link to={AppRoutes.SIGN_IN}>
-                                <Button>Войти</Button>
+                                <Button theme={ButtonTheme.CLEAR}>Войти</Button>
+                            </Link>
+                            <Link to={AppRoutes.SIGN_UP}>
+                                <Button>Регистрация</Button>
                             </Link>
                             <ThemeSwitcher size={24} />
                         </div>

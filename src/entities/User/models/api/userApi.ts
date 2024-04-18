@@ -10,7 +10,7 @@ export const userApi = rtkQuery.injectEndpoints({
             queryFn: async () => {
                 const cookieFallback = localStorage.getItem('cookieFallback');
                 try {
-                    if (!cookieFallback) return { data: null };
+                    if (cookieFallback === '[]') return { data: null };
                     const user = await account.get();
                     return { data: user };
                 } catch (error) {

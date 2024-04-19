@@ -14,8 +14,9 @@ import { Navbar } from '../Navbar/Navbar';
 import styles from './Header.module.scss';
 
 export const Header: FC = () => {
-    const userData = useAppSelector(getUserAuthData);
     const [logout, { isLoading }] = useLogOutMutation();
+
+    const userData = useAppSelector(getUserAuthData);
 
     return (
         <header className={styles.header}>
@@ -26,7 +27,7 @@ export const Header: FC = () => {
                     <Navbar />
                     {userData ? (
                         <div className={styles.controlWrapper}>
-                            <UserGreeting />
+                            <UserGreeting userId={userData.$id} />
                             <Button
                                 isLoading={isLoading}
                                 onClick={() => logout()}

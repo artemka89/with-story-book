@@ -4,4 +4,5 @@ export const rtkQuery = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({ baseUrl: '/' }),
     endpoints: () => ({}),
+    tagTypes: ['Profile'],
 });

@@ -1,17 +1,20 @@
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 
-import { userActions, UserType } from '@/entities/User';
-import { account } from '@/shared/api/config/appwriteClient';
+import { userActions } from '@/entities/User';
+import { appwriteApi, IUser } from '@/shared/api/appwriteApi';
 import { rtkQuery } from '@/shared/api/rtkQuery';
+import { localStorageKeys } from '@/shared/constants/localStorageKeys';
 
 export const userApi = rtkQuery.injectEndpoints({
     endpoints: (build) => ({
-        getCurrentLoggedUser: build.query<UserType, void>({
+        getCurrenUser: build.query<IUser | null, void>({
             queryFn: async () => {
-                const cookieFallback = localStorage.getItem('cookieFallback');
                 try {
+                    const cookieFallback = localStorage.getItem(
+                        localStorageKeys.SESSION_COOKIE,
+                    );
                     if (cookieFallback === '[]') return { data: null };
-                    const user = await account.get();
+                    const user = await appwriteApi.getCurrentUser();
                     return { data: user };
                 } catch (error) {
                     return { error: error as FetchBaseQueryError };
@@ -22,23 +25,21 @@ export const userApi = rtkQuery.injectEndpoints({
                 dispatch(userActions.setUser(data));
             },
         }),
-        logOut: build.mutation<null, void>({
+        logOut: build.query<null, void>({
             queryFn: async () => {
-                const cookieFallback = localStorage.getItem('cookieFallback');
                 try {
-                    if (!cookieFallback) return { data: null };
-                    await account.deleteSessions();
+                    await appwriteApi.logout();
                     return { data: null };
                 } catch (error) {
                     return { error: error as FetchBaseQueryError };
                 }
             },
             async onQueryStarted(_args, { dispatch, queryFulfilled }) {
-                await queryFulfilled;
-                dispatch(userActions.setUser(null));
+                const { data } = await queryFulfilled;
+                dispatch(userActions.setUser(data));
             },
         }),
     }),
 });
 
-export const { useLazyGetCurrentLoggedUserQuery, useLogOutMutation } = userApi;
+export const { useLazyGetCurrenUserQuery, useLazyLogOutQuery } = userApi;

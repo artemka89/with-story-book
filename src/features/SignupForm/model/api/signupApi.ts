@@ -1,31 +1,24 @@
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
-import { ID } from 'appwrite';
 
-import { userActions, UserType } from '@/entities/User';
-import { account } from '@/shared/api/config/appwriteClient';
+import { appwriteApi, IUser } from '@/shared/api/appwriteApi';
 import { rtkQuery } from '@/shared/api/rtkQuery';
 
 import { SignupSchema } from '../types';
 
 export const signupApi = rtkQuery.injectEndpoints({
     endpoints: (build) => ({
-        createAccount: build.mutation<UserType, SignupSchema>({
+        createAccount: build.mutation<IUser, SignupSchema>({
             queryFn: async ({ email, password, username }) => {
                 try {
-                    const newUser = await account.create(
-                        ID.unique(),
+                    const account = await appwriteApi.createUserAccount({
+                        username,
                         email,
                         password,
-                        username,
-                    );
-                    return { data: newUser };
+                    });
+                    return { data: account };
                 } catch (error) {
                     return { error: error as FetchBaseQueryError };
                 }
-            },
-            async onQueryStarted(_args, { dispatch, queryFulfilled }) {
-                const { data } = await queryFulfilled;
-                dispatch(userActions.setUser(data));
             },
         }),
     }),

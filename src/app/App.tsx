@@ -3,13 +3,13 @@ import { Toaster } from 'react-hot-toast';
 import classNames from 'classnames';
 
 import { AppRouter } from '@/app/router/ui/AppRouter';
-import { useLazyGetCurrentLoggedUserQuery } from '@/entities/User';
+import { useLazyGetCurrenUserQuery } from '@/entities/User';
 import { useTheme } from '@/shared/lib/hooks/useTheme';
 
 export const App = () => {
     const { theme } = useTheme();
 
-    const [getCurrentUserTrigger] = useLazyGetCurrentLoggedUserQuery();
+    const [getCurrentUserTrigger] = useLazyGetCurrenUserQuery();
 
     useEffect(() => {
         getCurrentUserTrigger();

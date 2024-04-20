@@ -1,8 +1,11 @@
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import { DevTool } from '@hookform/devtools';
 import classNames from 'classnames';
 
+import { getRouteSignIn } from '@/shared/constants/router';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 
@@ -16,11 +19,14 @@ interface SignupFormProps {
 }
 
 export const SignupForm: FC<SignupFormProps> = ({ className }) => {
+    const navigate = useNavigate();
+
     const [createAccount, { isLoading }] = useCreateAccountMutation();
 
     const {
         handleSubmit,
         control,
+        reset,
         formState: { errors },
     } = useForm<SignupSchema>({
         mode: 'onBlur',
@@ -31,7 +37,15 @@ export const SignupForm: FC<SignupFormProps> = ({ className }) => {
         },
     });
 
-    const onSubmit: SubmitHandler<SignupSchema> = (data) => createAccount(data);
+    const onSubmit: SubmitHandler<SignupSchema> = async (data) => {
+        await createAccount(data)
+            .unwrap()
+            .then(() => {
+                navigate(getRouteSignIn());
+                reset();
+                toast.success('Аккаунт успешно создан');
+            });
+    };
     return (
         <>
             <form

@@ -1,22 +1,30 @@
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
-import { userActions, UserType } from '@/entities/User';
-import { account } from '@/shared/api/config/appwriteClient';
+import { userActions } from '@/entities/User';
+import { appwriteApi, IUser } from '@/shared/api/appwriteApi';
 import { rtkQuery } from '@/shared/api/rtkQuery';
 
 import { SigninSchema } from '../types/SigninSchema';
 
 export const signinApi = rtkQuery.injectEndpoints({
     endpoints: (build) => ({
-        authByEmail: build.mutation<UserType, SigninSchema>({
+        authByEmail: build.mutation<IUser | undefined, SigninSchema>({
             queryFn: async ({ email, password }) => {
                 try {
-                    const session = await account.createEmailSession(
+                    const session = await appwriteApi.createEmailSession({
                         email,
                         password,
-                    );
-                    if (!session) return { data: null };
-                    const user = await account.get();
+                    });
+
+                    if (!session) return { data: undefined };
+
+                    const user = await appwriteApi.getCurrentUser();
+
+                    if (!user) {
+                        await appwriteApi.logout();
+                        return { data: undefined };
+                    }
+
                     return { data: user };
                 } catch (error) {
                     return { error: error as FetchBaseQueryError };
@@ -24,7 +32,9 @@ export const signinApi = rtkQuery.injectEndpoints({
             },
             async onQueryStarted(_args, { dispatch, queryFulfilled }) {
                 const { data } = await queryFulfilled;
-                dispatch(userActions.setUser(data));
+                if (data) {
+                    dispatch(userActions.setUser(data));
+                }
             },
         }),
     }),

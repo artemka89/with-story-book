@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import { getUserAuthData, useLogOutMutation } from '@/entities/User';
+import { getUserAuthData, useLazyLogOutQuery } from '@/entities/User';
 import { UserGreeting } from '@/entities/User/';
 import { ThemeSwitcher } from '@/features/ThemeSwitcher';
 import { AppRoutes } from '@/shared/constants/router';
@@ -14,7 +14,7 @@ import { Navbar } from '../Navbar/Navbar';
 import styles from './Header.module.scss';
 
 export const Header: FC = () => {
-    const [logout, { isLoading }] = useLogOutMutation();
+    const [logout, { isLoading }] = useLazyLogOutQuery();
 
     const userData = useAppSelector(getUserAuthData);
 

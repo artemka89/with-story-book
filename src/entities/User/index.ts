@@ -1,6 +1,6 @@
 export {
-    useLazyGetCurrentLoggedUserQuery,
-    useLogOutMutation,
+    useLazyGetCurrenUserQuery,
+    useLazyLogOutQuery,
 } from './models/api/userApi';
 export { getUserAuthData } from './models/selectors/getUserAuthData/getUserAuthData';
 export { userActions, userReduser } from './models/slice/userSlice';

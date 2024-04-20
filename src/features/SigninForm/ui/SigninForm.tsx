@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -25,6 +25,7 @@ export const SigninForm: FC<SigninFormProps> = ({ className }) => {
     const {
         handleSubmit,
         control,
+        reset,
         formState: { errors },
     } = useForm<SigninSchema>({
         mode: 'onBlur',
@@ -42,11 +43,9 @@ export const SigninForm: FC<SigninFormProps> = ({ className }) => {
             .unwrap()
             .then(() => {
                 navigate('/');
+                reset();
+                toast.success('Вход успешно выполнен');
             });
-
-    useEffect(() => {
-        status === 'fulfilled' && toast.success('Вход успешно выполнен');
-    }, [status]);
 
     return (
         <>

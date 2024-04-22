@@ -17,7 +17,7 @@ module.exports = {
             { allowConstantExport: true },
         ],
         'prettier/prettier': ['error', { endOfLine: 'auto' }],
-        '@typescript-eslint/no-unused-vars': 'error',
+        '@typescript-eslint/no-unused-vars': 'warn',
         'no-unused-vars': 'off',
         'simple-import-sort/imports': 'error',
         'simple-import-sort/exports': 'error',

@@ -16,7 +16,7 @@ export const App = () => {
     }, [getCurrentUserTrigger]);
 
     return (
-        <div className={classNames('app', [theme])}>
+        <div id="app" className={classNames('app', [theme])}>
             <AppRouter />
             <Toaster />
         </div>

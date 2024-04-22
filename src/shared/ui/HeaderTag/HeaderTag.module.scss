@@ -1,0 +1,25 @@
+.headerTag {
+    width: 100%;
+}
+
+.headers {
+    &.sm {
+        font-size: var(--font-size-h3);
+    }
+    &.md {
+        font-size: var(--font-size-h2);
+    }
+    &.lg {
+        font-size: var(--font-size-h1);
+    }
+
+    &.left {
+        text-align: left;
+    }
+    &.center {
+        text-align: center;
+    }
+    &.right {
+        text-align: right;
+    }
+}

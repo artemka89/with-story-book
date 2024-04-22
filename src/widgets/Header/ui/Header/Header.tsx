@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import { getUserAuthData, useLazyLogOutQuery } from '@/entities/User';
+import { getUserAuthData, useLazyLogoutQuery } from '@/entities/User';
 import { UserGreeting } from '@/entities/User/';
 import { ThemeSwitcher } from '@/features/ThemeSwitcher';
 import { AppRoutes } from '@/shared/constants/router';
@@ -14,7 +14,7 @@ import { Navbar } from '../Navbar/Navbar';
 import styles from './Header.module.scss';
 
 export const Header: FC = () => {
-    const [logout, { isLoading }] = useLazyLogOutQuery();
+    const [logout, { isLoading }] = useLazyLogoutQuery();
 
     const userData = useAppSelector(getUserAuthData);
 
@@ -39,7 +39,9 @@ export const Header: FC = () => {
                     ) : (
                         <div className={styles.controlWrapper}>
                             <Link to={AppRoutes.SIGN_IN}>
-                                <Button theme={ButtonTheme.CLEAR}>Войти</Button>
+                                <Button theme={ButtonTheme.UNDERLINE}>
+                                    Войти
+                                </Button>
                             </Link>
                             <Link to={AppRoutes.SIGN_UP}>
                                 <Button>Регистрация</Button>

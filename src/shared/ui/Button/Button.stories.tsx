@@ -15,8 +15,9 @@ const meta = {
         theme: {
             options: [
                 ButtonTheme.CLEAR,
+                ButtonTheme.UNDERLINE,
                 ButtonTheme.OUTLINE,
-                ButtonTheme.BACKGROUND,
+                ButtonTheme.FILLED,
             ],
             control: { type: 'radio' },
         },
@@ -42,6 +43,6 @@ export const Outline: Story = {
 
 export const Background: Story = {
     args: {
-        theme: ButtonTheme.BACKGROUND,
+        theme: ButtonTheme.FILLED,
     },
 };

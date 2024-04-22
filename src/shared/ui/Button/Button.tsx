@@ -7,6 +7,7 @@ import styles from './Button.module.scss';
 
 export enum ButtonTheme {
     CLEAR = 'clear',
+    UNDERLINE = 'underline',
     OUTLINE = 'outline',
     FILLED = 'filled',
 }

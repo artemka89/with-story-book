@@ -7,13 +7,14 @@ import { localStorageKeys } from '@/shared/constants/localStorageKeys';
 
 export const userApi = rtkQuery.injectEndpoints({
     endpoints: (build) => ({
-        getCurrenUser: build.query<IUser | null, void>({
+        getCurrentUser: build.query<IUser | null, void>({
             queryFn: async () => {
                 try {
                     const cookieFallback = localStorage.getItem(
                         localStorageKeys.SESSION_COOKIE,
                     );
-                    if (cookieFallback === '[]') return { data: null };
+                    if (!cookieFallback || cookieFallback === '[]')
+                        return { data: null };
                     const user = await appwriteApi.getCurrentUser();
                     return { data: user };
                 } catch (error) {
@@ -25,12 +26,13 @@ export const userApi = rtkQuery.injectEndpoints({
                 dispatch(userActions.setUser(data));
             },
         }),
-        logOut: build.query<null, void>({
+        logout: build.query<null, void>({
             queryFn: async () => {
                 try {
                     await appwriteApi.logout();
                     return { data: null };
                 } catch (error) {
+                    localStorage.removeItem(localStorageKeys.SESSION_COOKIE);
                     return { error: error as FetchBaseQueryError };
                 }
             },
@@ -42,4 +44,4 @@ export const userApi = rtkQuery.injectEndpoints({
     }),
 });
 
-export const { useLazyGetCurrenUserQuery, useLazyLogOutQuery } = userApi;
+export const { useLazyGetCurrentUserQuery, useLazyLogoutQuery } = userApi;

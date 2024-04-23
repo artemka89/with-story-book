@@ -6,11 +6,13 @@ import { DevTool } from '@hookform/devtools';
 import classNames from 'classnames';
 
 import { getRouteSignIn } from '@/shared/constants/router';
+import { AppLink } from '@/shared/ui/AppLink';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
+import { Text } from '@/shared/ui/Text';
 
-import { useCreateAccountMutation } from '../model/api/signupApi';
 import { SignupSchema } from '../model/types';
+import { useCreateAccountMutation } from '..';
 
 import styles from './SignupForm.module.scss';
 
@@ -92,13 +94,21 @@ export const SignupForm: FC<SignupFormProps> = ({ className }) => {
                         />
                     )}
                 />
-                <Button
-                    isLoading={isLoading}
-                    type="submit"
-                    className={styles.button}
-                >
-                    Создать
-                </Button>
+                <div className={styles.footer}>
+                    <div className={styles.footerWrapper}>
+                        <Text>Уже есть аккаунта?</Text>
+                        <AppLink to={getRouteSignIn()} className={styles.link}>
+                            Войти
+                        </AppLink>
+                    </div>
+                    <Button
+                        isLoading={isLoading}
+                        type="submit"
+                        className={styles.button}
+                    >
+                        Создать
+                    </Button>
+                </div>
             </form>
             <DevTool control={control} />
         </>

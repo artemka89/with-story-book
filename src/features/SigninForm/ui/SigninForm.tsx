@@ -5,8 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { DevTool } from '@hookform/devtools';
 import classNames from 'classnames';
 
+import { getRouteSignUp } from '@/shared/constants/router';
+import { AppLink } from '@/shared/ui/AppLink';
 import { Button } from '@/shared/ui/Button/Button';
 import { Input } from '@/shared/ui/Input/Input';
+import { Text } from '@/shared/ui/Text';
 
 import { useAuthByEmailMutation } from '../model/api/signinApi';
 import { SigninSchema } from '../model/types/SigninSchema';
@@ -80,13 +83,21 @@ export const SigninForm: FC<SigninFormProps> = ({ className }) => {
                         />
                     )}
                 />
-                <Button
-                    isLoading={status === 'pending'}
-                    type="submit"
-                    className={styles.button}
-                >
-                    Войти
-                </Button>
+                <div className={styles.footer}>
+                    <div className={styles.footerWrapper}>
+                        <Text>Нет аккаунта?</Text>
+                        <AppLink to={getRouteSignUp()} className={styles.link}>
+                            Регистрация
+                        </AppLink>
+                    </div>
+                    <Button
+                        isLoading={status === 'pending'}
+                        type="submit"
+                        className={styles.button}
+                    >
+                        Войти
+                    </Button>
+                </div>
             </form>
             <DevTool control={control} />
         </>

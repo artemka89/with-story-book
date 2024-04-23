@@ -8,3 +8,22 @@
 .button {
     align-self: flex-end;
 }
+
+.link {
+    color: var(--accent-color);
+    &::before {
+        background: var(--accent-color);
+    }
+}
+
+.footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footerWrapper {
+    display: flex;
+    gap: 10px;
+}

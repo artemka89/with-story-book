@@ -1,1 +1,1 @@
-export { useCreateAccountMutation } from './model/api/signupApi';
+export { useCreateAccountMutation } from './api/signupApi';

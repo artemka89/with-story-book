@@ -25,30 +25,26 @@ export const Header: FC = () => {
 
                 <div className={styles.navWrapper}>
                     <Navbar />
-                    {userData ? (
-                        <div className={styles.controlWrapper}>
-                            <UserGreeting userId={userData.$id} />
-                            <Button
-                                isLoading={isLoading}
-                                onClick={() => logout()}
-                            >
-                                Выйти
-                            </Button>
-                            <ThemeSwitcher size={24} />
-                        </div>
-                    ) : (
-                        <div className={styles.controlWrapper}>
+                    <div className={styles.controlWrapper}>
+                        {userData ? (
+                            <>
+                                <UserGreeting userId={userData.$id} />
+                                <Button
+                                    isLoading={isLoading}
+                                    onClick={() => logout()}
+                                >
+                                    Выйти
+                                </Button>
+                            </>
+                        ) : (
                             <Link to={AppRoutes.SIGN_IN}>
-                                <Button theme={ButtonTheme.UNDERLINE}>
+                                <Button theme={ButtonTheme.FILLED}>
                                     Войти
                                 </Button>
                             </Link>
-                            <Link to={AppRoutes.SIGN_UP}>
-                                <Button>Регистрация</Button>
-                            </Link>
-                            <ThemeSwitcher size={24} />
-                        </div>
-                    )}
+                        )}
+                        <ThemeSwitcher size={24} />
+                    </div>
                 </div>
             </div>
         </header>

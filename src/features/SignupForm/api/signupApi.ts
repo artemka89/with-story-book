@@ -1,9 +1,9 @@
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 
-import { appwriteApi, IUser } from '@/shared/api/appwriteApi';
+import { appwriteApi, INewProfile, IUser } from '@/shared/api/appwriteApi';
 import { rtkQuery } from '@/shared/api/rtkQuery';
 
-import { SignupSchema } from '../types';
+import { SignupSchema } from '../model/types';
 
 export const signupApi = rtkQuery.injectEndpoints({
     endpoints: (build) => ({
@@ -15,6 +15,19 @@ export const signupApi = rtkQuery.injectEndpoints({
                         email,
                         password,
                     });
+
+                    const avatar = appwriteApi.getUserAvatar(account.name);
+
+                    const profile: INewProfile = {
+                        userId: account.$id,
+                        city: '',
+                        street: '',
+                        imageId: '',
+                        imageUrl: avatar,
+                    };
+
+                    await appwriteApi.createUserProfile(profile);
+
                     return { data: account };
                 } catch (error) {
                     return { error: error as FetchBaseQueryError };

@@ -1,0 +1,28 @@
+.text {
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    &.sm {
+        font-size: var(--font-m);
+    }
+    &.md {
+        font-size: var(--font-l);
+    }
+    &.lg {
+        font-size: var(--font-xl);
+    }
+
+    &.left {
+        text-align: left;
+    }
+    &.center {
+        text-align: center;
+    }
+    &.right {
+        text-align: right;
+    }
+
+    &.error {
+        color: var(--error-red-color);
+    }
+}

@@ -51,6 +51,11 @@
     font-size: 12px;
 }
 
+.readonly {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
 .clearBtn {
     display: flex;
     align-items: center;

@@ -19,14 +19,16 @@ export const signupApi = rtkQuery.injectEndpoints({
                     const avatar = appwriteApi.getUserAvatar(account.name);
 
                     const profile: INewProfile = {
-                        userId: account.$id,
                         city: '',
                         street: '',
                         imageId: '',
-                        imageUrl: avatar,
+                        imageUrl: avatar.toString(),
                     };
 
-                    await appwriteApi.createUserProfile(profile);
+                    await appwriteApi.createUserProfile({
+                        userId: account.$id,
+                        data: profile,
+                    });
 
                     return { data: account };
                 } catch (error) {

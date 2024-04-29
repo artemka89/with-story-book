@@ -18,6 +18,7 @@ export const userApi = rtkQuery.injectEndpoints({
                     const user = await appwriteApi.getCurrentUser();
                     return { data: user };
                 } catch (error) {
+                    localStorage.removeItem(localStorageKeys.SESSION_COOKIE);
                     return { error: error as FetchBaseQueryError };
                 }
             },

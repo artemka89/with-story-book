@@ -12,7 +12,7 @@ import styles from './Input.module.scss';
 
 type HTMLInputProps = Omit<
     InputHTMLAttributes<HTMLInputElement>,
-    'value' | 'onChange'
+    'value' | 'onChange' | 'readOnly'
 >;
 
 type Radius = 'normal' | 'full';
@@ -25,6 +25,7 @@ interface InputProps extends HTMLInputProps {
     error?: string;
     radius?: Radius;
     label?: string;
+    readonly?: boolean;
     isClearButton?: boolean;
     onChange?: (value: string) => void;
 }
@@ -39,6 +40,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             error,
             radius = 'normal',
             label,
+            readonly = false,
             isClearButton = true,
             onChange,
             ...props
@@ -58,6 +60,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         };
 
         const onClickLabel = () => {
+            if (readonly) return;
             inputRef.current?.focus();
         };
 
@@ -67,7 +70,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                     styles.inputWrapper,
                     styles[radius],
                     className,
-                    { [styles.error]: !!error },
+                    { [styles.error]: !!error, [styles.readonly]: readonly },
                 )}
             >
                 <input
@@ -78,6 +81,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                     onChange={onChangeHandler}
                     placeholder=""
                     className={styles.input}
+                    readOnly={readonly}
                     {...props}
                 />
                 <label

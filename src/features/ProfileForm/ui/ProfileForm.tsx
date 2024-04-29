@@ -1,14 +1,16 @@
-import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { DevTool } from '@hookform/devtools';
 import classNames from 'classnames';
 
-import { IProfile } from '@/entities/Profile';
+import { IProfile } from '@/shared/api/appwriteApi';
 import { Avatar } from '@/shared/ui/Avatar/Avatar';
-import { Button, ButtonTheme } from '@/shared/ui/Button';
+import { Button } from '@/shared/ui/Button';
+import { FileInput } from '@/shared/ui/FileInput';
 import { Input } from '@/shared/ui/Input';
 
+import { useUpdateUserProfileMutation } from '../api/profileApi';
 import { ProfileFormSchema } from '../model/types/profileSchema';
 
 import styles from './ProfileForm.module.scss';
@@ -16,66 +18,64 @@ import styles from './ProfileForm.module.scss';
 interface ProfileFormProps {
     className?: string;
     data: IProfile;
-    isLoading: boolean;
-    isSuccess: boolean;
-    updateProfile: ({
-        profileId,
-        data,
-    }: {
-        profileId: string;
-        data: ProfileFormSchema;
-    }) => void;
 }
 
-export const ProfileForm: FC<ProfileFormProps> = ({
-    className,
-    data,
-    isLoading,
-    isSuccess,
-    updateProfile,
-}) => {
+export const ProfileForm: FC<ProfileFormProps> = ({ className, data }) => {
     const [readonly, setReadonly] = useState(true);
-    const [avatarFile, setAvatarFile] = useState<File | undefined>(undefined);
 
-    const filePickerRef = useRef<HTMLInputElement | null>(null);
+    const [updateProfile, { isLoading, isSuccess }] =
+        useUpdateUserProfileMutation();
 
     const {
+        register,
         handleSubmit,
         control,
         reset,
         formState: { errors, isDirty },
+        getValues,
     } = useForm<ProfileFormSchema>({
         mode: 'onBlur',
         defaultValues: {
             username: data.username,
             email: data.email,
-            phone: data.phone,
+            // phone: data.phone,
             city: data.city,
-            address: data.address,
+            street: data.street,
+            imageFile: [],
         },
     });
 
-    const onSubmitHandler: SubmitHandler<ProfileFormSchema> = (formData) => {
-        updateProfile({ profileId: data.$id, data: formData });
+    const getImageFileUrl = () => {
+        const imageFile = getValues('imageFile');
+        if (imageFile && imageFile.length > 0) return imageFile[0];
+    };
+
+    const imageUrl = getImageFileUrl();
+
+    const onSubmitHandler: SubmitHandler<ProfileFormSchema> = async (
+        formData,
+    ) => {
+        await updateProfile({
+            ...formData,
+            id: data.$id,
+            imageId: data.imageId || '',
+            imageUrl: data.imageUrl || '',
+        });
+        setReadonly(true);
     };
 
     const onCancelEdit = () => {
         setReadonly(true);
-        setAvatarFile(undefined);
         reset();
     };
 
-    const onEditImage = () => {
-        filePickerRef.current?.click();
-    };
-
-    const onChangeAvatar = (event: ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        setAvatarFile(file);
-    };
-
     useEffect(() => {
-        if (isSuccess) toast.success('Провиль успешно обнавлен');
+        if (isSuccess) {
+            toast.success('Пользователь успешно обновлен');
+        } else {
+            reset();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSuccess]);
 
     return (
@@ -87,38 +87,18 @@ export const ProfileForm: FC<ProfileFormProps> = ({
                 <div className={styles.profileFIleInputsWrapper}>
                     <Avatar
                         src={
-                            avatarFile
-                                ? URL.createObjectURL(avatarFile)
+                            imageUrl
+                                ? URL.createObjectURL(imageUrl)
                                 : data?.imageUrl
                         }
                         alt="avatar"
                     />
-                    {!readonly && (
-                        <div>
-                            {data?.imageId ? (
-                                <Button
-                                    onClick={onEditImage}
-                                    theme={ButtonTheme.OUTLINE}
-                                >
-                                    Изменить
-                                </Button>
-                            ) : (
-                                <Button
-                                    onClick={() => {}}
-                                    theme={ButtonTheme.OUTLINE}
-                                >
-                                    Загрузить
-                                </Button>
-                            )}
-                            <input
-                                ref={filePickerRef}
-                                type="file"
-                                onChange={onChangeAvatar}
-                                accept="image/*,.png,.jpg,.web"
-                                className={styles.hidden}
-                            />
-                        </div>
-                    )}
+                    <FileInput
+                        {...register('imageFile')}
+                        className={classNames({
+                            [styles.hidden]: readonly,
+                        })}
+                    />
                 </div>
                 <div className={styles.profileInputsWrapper}>
                     <Controller
@@ -131,10 +111,7 @@ export const ProfileForm: FC<ProfileFormProps> = ({
                                 label="Имя *"
                                 error={errors.username?.message}
                                 isClearButton={false}
-                                readOnly={readonly}
-                                className={classNames({
-                                    [styles.profileReadonly]: readonly,
-                                })}
+                                readonly={readonly}
                             />
                         )}
                     />
@@ -148,14 +125,11 @@ export const ProfileForm: FC<ProfileFormProps> = ({
                                 label="Email *"
                                 error={errors.email?.message}
                                 isClearButton={false}
-                                readOnly={readonly}
-                                className={classNames({
-                                    [styles.profileReadonly]: readonly,
-                                })}
+                                readonly
                             />
                         )}
                     />
-                    <Controller
+                    {/* <Controller
                         name="phone"
                         control={control}
                         rules={{ required: 'Телефон обязательное поле' }}
@@ -171,7 +145,7 @@ export const ProfileForm: FC<ProfileFormProps> = ({
                                 })}
                             />
                         )}
-                    />
+                    /> */}
                     <Controller
                         name="city"
                         control={control}
@@ -182,27 +156,21 @@ export const ProfileForm: FC<ProfileFormProps> = ({
                                 label="Город *"
                                 error={errors.city?.message}
                                 isClearButton={false}
-                                readOnly={readonly}
-                                className={classNames({
-                                    [styles.profileReadonly]: readonly,
-                                })}
+                                readonly={readonly}
                             />
                         )}
                     />
                     <Controller
-                        name="address"
+                        name="street"
                         control={control}
                         rules={{ required: 'Улица обязательное поле' }}
                         render={({ field }) => (
                             <Input
                                 {...field}
                                 label="Улица *"
-                                error={errors.city?.message}
+                                error={errors.street?.message}
                                 isClearButton={false}
-                                readOnly={readonly}
-                                className={classNames({
-                                    [styles.profileReadonly]: readonly,
-                                })}
+                                readonly={readonly}
                             />
                         )}
                     />
@@ -210,7 +178,7 @@ export const ProfileForm: FC<ProfileFormProps> = ({
                         <Button
                             onClick={() => setReadonly(false)}
                             fullWidth
-                            isLoading={isLoading}
+                            isLoading={false}
                             type="submit"
                         >
                             Редактировать

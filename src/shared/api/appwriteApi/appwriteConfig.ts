@@ -2,7 +2,7 @@ export const appwriteConfig = {
     Url: import.meta.env.VITE_APPWRITE_URL,
     ProjectId: import.meta.env.VITE_APPWRITE_PROJECT_ID,
     DatabaseId: import.meta.env.VITE_APPWRITE_DATABASE_ID,
-    UsersCollectionId: import.meta.env.VITE_APPWRITE_USERS_COLLECTION_ID,
+    ProfilesCollectionId: import.meta.env.VITE_APPWRITE_PROFILES_COLLECTION_ID,
 
     PizzasCollectionId: import.meta.env.VITE_APPWRITE_PIZZAS_COLLECTION_ID,
 

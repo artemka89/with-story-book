@@ -1,9 +1,11 @@
 export interface ProfileFormSchema {
+    id: string;
     username: string;
     email: string;
     imageId: string;
-    image: File;
+    imageUrl: string;
+    imageFile: File[];
     city: string;
-    address: string;
+    street: string;
     phone: string;
 }

@@ -6,15 +6,15 @@ import {
     Middleware,
 } from '@reduxjs/toolkit';
 
-import { AppwiteErrorType } from '@/app/types/appriteError';
-import { userReduser } from '@/entities/User/models/slice/userSlice';
+import { AppwriteErrorType } from '@/app/types/appwriteError';
+import { userReducer } from '@/entities/User/models/slice/userSlice';
 import { rtkQuery } from '@/shared/api/rtkQuery';
 
 export const rtkQueryErrorLogger: Middleware = () => (next) => (action) => {
     if (isRejectedWithValue(action)) {
-        const customError = action.payload as AppwiteErrorType;
+        const customError = action.payload as AppwriteErrorType;
         if (customError.code === 0) {
-            toast.error('Соединение отсутсвует');
+            toast.error('Соединение отсутствует');
         }
         if (customError.code === 401) {
             toast.error(
@@ -30,13 +30,13 @@ export const rtkQueryErrorLogger: Middleware = () => (next) => (action) => {
     return next(action);
 };
 
-const rootRecucer = combineReducers({
+const rootReducer = combineReducers({
     [rtkQuery.reducerPath]: rtkQuery.reducer,
-    user: userReduser,
+    user: userReducer,
 });
 
 export const store = configureStore({
-    reducer: rootRecucer,
+    reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
             .concat(rtkQuery.middleware)

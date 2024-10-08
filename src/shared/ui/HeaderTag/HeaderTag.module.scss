@@ -3,6 +3,8 @@
 }
 
 .headers {
+    padding: 0;
+    margin: 16px 0;
     &.sm {
         font-size: var(--font-size-h3);
     }

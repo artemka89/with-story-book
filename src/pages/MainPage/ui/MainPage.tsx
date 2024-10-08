@@ -1,26 +1,41 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
+import classNames from 'classnames';
 
 import { Button } from '@/shared/ui/Button';
-import { Modal } from '@/shared/ui/Modal/Modal';
+import { ButtonTheme } from '@/shared/ui/Button/Button';
+import { HeaderTag } from '@/shared/ui/HeaderTag';
 
-export const MainPage: FC = () => {
-    const [isOpen, setIsOpen] = useState(false);
+import styles from './MainPage.module.scss';
 
-    const onClose = () => {
-        setIsOpen(false);
-        console.log(isOpen);
-    };
+interface MainPageProps {
+    className: string;
+}
 
+export const MainPage: FC<MainPageProps> = ({ className }) => {
     return (
-        <>
-            Main Page
-            <Button onClick={() => setIsOpen(true)}>Modal</Button>
-            <br />
-            <Modal isOpen={isOpen} onClose={onClose}>
-                <p>
-                    123454321312312323231313323213178372193723971203127931293712097
-                </p>
-            </Modal>
-        </>
+        <main className={classNames(className)}>
+            <section className={styles.hero}>
+                <div className={styles.heroInfo}>
+                    <div className="">
+                        <HeaderTag size="lg">МОЯ ПИЦЦА -</HeaderTag>
+                        <HeaderTag>Самая вкусная пицца во вселенной</HeaderTag>
+                        <p className={styles.heroText}>
+                            Пицца — это недостающий кусочек, который делает
+                            каждый день полноценным, простая, но вкусная радость
+                            в жизни.
+                        </p>
+                        <div className={styles.heroButton}>
+                            <Button>Заказать</Button>
+                            <Button theme={ButtonTheme.OUTLINE}>
+                                Узнать больше
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+                <div className={styles.heroImage}>
+                    <img src="/pizza.png" alt="pizza" />
+                </div>
+            </section>
+        </main>
     );
 };

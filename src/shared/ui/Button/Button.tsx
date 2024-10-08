@@ -1,8 +1,6 @@
 import { ButtonHTMLAttributes, FC } from 'react';
 import classNames from 'classnames';
 
-import { Loader } from '../Loader';
-
 import styles from './Button.module.scss';
 
 export enum ButtonTheme {
@@ -43,20 +41,17 @@ export const Button: FC<ButtonProps> = ({
         <button
             type={type}
             disabled={disabled}
-            className={classNames([
-                styles.button,
-                styles[theme],
-                styles[radius],
+            className={classNames(
+                [styles.button, styles[theme], styles[radius]],
                 {
                     [styles.isLoading]: isLoading,
                     [styles.disabled]: disabled,
                     [styles.fullWidth]: fullWidth,
                 },
                 className,
-            ])}
+            )}
             {...props}
         >
-            {isLoading && <Loader className={styles.loader} />}
             {children}
         </button>
     );

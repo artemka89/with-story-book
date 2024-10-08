@@ -6,6 +6,7 @@ import { ProfileForm, useGetUserProfileQuery } from '@/features/ProfileForm';
 import { IProfile } from '@/shared/api/appwriteApi';
 import { useAppSelector } from '@/shared/lib/store';
 import { HeaderTag } from '@/shared/ui/HeaderTag';
+import { PageLoader } from '@/shared/ui/PageLoader';
 
 import styles from './ProfilePage.module.scss';
 
@@ -16,9 +17,11 @@ interface ProfilePageProps {
 export const ProfilePage: FC<ProfilePageProps> = ({ className }) => {
     const authData = useAppSelector(getUserAuthData);
 
-    const { data } = useGetUserProfileQuery(authData?.$id, { skip: !authData });
+    const { data, isLoading } = useGetUserProfileQuery(authData?.$id, {
+        skip: !authData,
+    });
 
-    if (!authData || !data) return 'Нет пользователя';
+    if (isLoading || !authData || !data) return <PageLoader />;
 
     const profileData: IProfile = {
         ...data,

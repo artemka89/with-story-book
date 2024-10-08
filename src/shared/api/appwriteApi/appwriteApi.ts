@@ -5,7 +5,6 @@ import {
     Databases,
     ID,
     Models,
-    Query,
     Storage,
 } from 'appwrite';
 

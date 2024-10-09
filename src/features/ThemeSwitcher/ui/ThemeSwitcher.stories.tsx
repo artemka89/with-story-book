@@ -27,10 +27,10 @@ type Story = StoryObj<typeof meta>;
 
 export const Sun: Story = {
     args: {},
+    decorators: ThemeDecorator(Theme.LIGHT, style),
 };
-Sun.decorators = ThemeDecorator(Theme.LIGHT, style);
 
 export const Moon: Story = {
     args: {},
+    decorators: ThemeDecorator(Theme.DARK, style),
 };
-Moon.decorators = ThemeDecorator(Theme.DARK, style);
